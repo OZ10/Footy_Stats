@@ -11,6 +11,9 @@ class player {
 }
 
 let players = [];
+const goalsButton = document.getElementById("playerGoals");
+let timer;
+
 
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.length > 0) {
@@ -64,8 +67,12 @@ function clonePlayerNodeAndSetup(player) {
     playertemplate.classList.remove("d-none");
     playertemplate.querySelector('#' + "playerName").innerHTML = player.name;
 
-    playertemplate.querySelector('#' + "playerGoals").innerHTML = player.goalsValue;
-    playertemplate.querySelector('#' + "playerGoals").id = player.name + "_Goals";
+    cloneAndSetupButtons(playertemplate, player, "Goals");
+    cloneAndSetupButtons(playertemplate, player, "Assists");
+    cloneAndSetupButtons(playertemplate, player, "Passes");
+    cloneAndSetupButtons(playertemplate, player, "Saves");
+
+    /*
 
     playertemplate.querySelector('#' + "playerAssists").innerHTML = player.assistsValue;
     playertemplate.querySelector('#' + "playerAssists").id = player.name + "_Assists";
@@ -76,8 +83,69 @@ function clonePlayerNodeAndSetup(player) {
     playertemplate.querySelector('#' + "playerPasses").innerHTML = player.passesValue;
     playertemplate.querySelector('#' + "playerPasses").id = player.name + "_Passes";
 
+    */
 
     document.getElementById("playerslots").appendChild(playertemplate);
+}
+
+let isLongClick = false;
+
+const startTimer = (event) => {
+    const button = document.getElementById(event.currentTarget.id);
+    timer = setTimeout(() => {
+        //alert('Long click detected!');
+        isLongClick = true;
+        statClick(button, -1);
+    }, 500); // 1000 milliseconds = 1 second
+};
+
+const clearTimer = (event) => {
+    const button = document.getElementById(event.currentTarget.id)
+    clearTimeout(timer);
+    if (!isLongClick) {
+        statClick(button, 1);
+    } else {
+        isLongClick = false;
+    }
+};
+
+
+function cloneAndSetupButtons(playertemplate, player, buttonName) {
+    const button = playertemplate.querySelector('#player' + buttonName);
+
+    button.innerHTML = player.goalsValue;
+
+    switch (buttonName) {
+        case "Goals":
+            button.innerHTML = player.goalsValue;
+            break;
+
+        case "Assists":
+            button.innerHTML = player.assistsValue;
+            break;
+
+        case "Passes":
+            button.innerHTML = player.passesValue;
+            break;
+
+        case "Saves":
+            button.innerHTML = player.savesValue;
+            break;
+
+        default:
+            break;
+    }
+
+    button.id = player.name + "_" + buttonName;
+
+    button.addEventListener('mousedown', startTimer);
+    button.addEventListener('mouseup', clearTimer);
+    //goalsButton.addEventListener('mouseleave', clearTimer);
+
+    // Add touch events for mobile compatibility
+    button.addEventListener('touchstart', startTimer);
+    button.addEventListener('touchend', clearTimer);
+    //goalsButton.addEventListener('touchcancel', clearTimer);
 }
 
 function addPlayer() {
@@ -92,7 +160,42 @@ function addPlayer() {
     }
 }
 
-function statClick(id) {
+function statClick(button, value) {
+    //const div = document.getElementById(id);
+
+    let num = parseInt(button.innerHTML);
+    num += value; //1;
+
+    button.innerHTML = num;
+
+    const playerName = button.id.split("_");
+    const player = getPlayerByName(playerName[0]);
+
+    switch (playerName[1]) {
+        case "Goals":
+            player.goalsValue += value;
+            break;
+
+        case "Assists":
+            player.assistsValue += value;
+            break;
+
+        case "Passes":
+            player.passesValue += value;
+            break;
+
+        case "Saves":
+            player.savesValue += value;
+            break;
+
+        default:
+            break;
+    }
+
+    SaveAllSettings();
+}
+
+function statClick_old(id) {
     const div = document.getElementById(id);
 
     let num = parseInt(div.innerHTML);

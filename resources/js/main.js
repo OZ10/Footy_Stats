@@ -91,7 +91,7 @@ function clonePlayerNodeAndSetup(player) {
 let isLongClick = false;
 
 const startTimer = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const button = document.getElementById(event.currentTarget.id);
     timer = setTimeout(() => {
         //alert('Long click detected!');
@@ -101,7 +101,7 @@ const startTimer = (event) => {
 };
 
 const clearTimer = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const button = document.getElementById(event.currentTarget.id)
     clearTimeout(timer);
     if (!isLongClick) {
@@ -145,8 +145,8 @@ function cloneAndSetupButtons(playertemplate, player, buttonName) {
     //goalsButton.addEventListener('mouseleave', clearTimer);
 
     // Add touch events for mobile compatibility
-    button.addEventListener('touchstart', startTimer, { passive: false });
-    button.addEventListener('touchend', clearTimer, { passive: false });
+    //button.addEventListener('touchstart', startTimer, { passive: false });
+    //button.addEventListener('touchend', clearTimer, { passive: false });
 
     //goalsButton.addEventListener('touchcancel', clearTimer);
 }

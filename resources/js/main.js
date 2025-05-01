@@ -97,7 +97,7 @@ const startTimer = (event) => {
         //alert('Long click detected!');
         isLongClick = true;
         statClick(button, -1);
-    }, 500); // 1000 milliseconds = 1 second
+    }, 1000); // 1000 milliseconds = 1 second
 };
 
 const clearTimer = (event) => {

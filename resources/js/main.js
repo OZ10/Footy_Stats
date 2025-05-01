@@ -102,6 +102,7 @@ const startTimer = (event) => {
 
 const clearTimer = (event) => {
     //event.preventDefault();
+    console.log('mouseup event fired');
     const button = document.getElementById(event.currentTarget.id)
     clearTimeout(timer);
     if (!isLongClick) {
@@ -140,8 +141,8 @@ function cloneAndSetupButtons(playertemplate, player, buttonName) {
 
     button.id = player.name + "_" + buttonName;
 
-    button.addEventListener('mousedown', startTimer);
-    button.addEventListener('mouseup', clearTimer);
+    button.addEventListener('mousedown', startTimer, { passive: false });
+    button.addEventListener('mouseup', clearTimer, { passive: false });
     //goalsButton.addEventListener('mouseleave', clearTimer);
 
     // Add touch events for mobile compatibility

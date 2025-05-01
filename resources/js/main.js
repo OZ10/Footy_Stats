@@ -141,8 +141,8 @@ function cloneAndSetupButtons(playertemplate, player, buttonName) {
 
     button.id = player.name + "_" + buttonName;
 
-    button.addEventListener('mousedown', startTimer, { passive: false });
-    button.addEventListener('mouseup', clearTimer, { passive: false });
+    button.addEventListener('pointerdown', startTimer, { passive: false });
+    button.addEventListener('pointerup', clearTimer, { passive: false });
     //goalsButton.addEventListener('mouseleave', clearTimer);
 
     // Add touch events for mobile compatibility
